@@ -58,12 +58,9 @@ updateCell :: (Eq a) => [(a, (a, a))] -> Board a b -> (Int, Int, Int)  -> Board 
 updateCell rules board (i,j,k) = alter go (j, i) board
     where
         go (Just old) = Just $ old ++ productCell rules left right
-        go Nothing    = Just $ productCell rules left right
-        left  = cell l_idx board
-        right = cell r_idx board
-        l_idx = (j,k)
-        r_idx = (j+k+1, i-k-1)
-
+        go Nothing    = Just $        productCell rules left right
+        left  = cell (j,k)          board
+        right = cell (j+k+1, i-k-1) board
 
 matchLiteral :: Eq b => [(a, b)] -> (Int, b) ->  [Parse a b]
 matchLiteral rules (i,lit) =  map (Lit i lit . fst) . filter ((==lit) . snd) $ rules
